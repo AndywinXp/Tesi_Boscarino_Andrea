@@ -137,7 +137,7 @@
 1492939284 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\calibration_single_camera.cpp
 	"Calibration_single_camera.h"
 
-1492796514 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\calibration_single_camera.h
+1493579596 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\calibration_single_camera.h
 	"../OS/os.h"
 	<opencv/cv.h>
 	<stdio.h>
@@ -150,15 +150,15 @@
 	<windows.h>
 	"OV7670.h"
 
-1492932175 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
+1493579548 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
 	<stdio.h>
-	<WinSock2.h>
 	<direct.h>
 	<sys/time.h>
 	<opencv/cv.h>
 	<opencv/highgui.h>
 	<stdlib.h>
 	"lib_time_measurements.h"
+	"hybrid_socket.h"
 	"Calibration_single_camera.h"
 
 1492293461 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\lib_time_measurements.h
@@ -167,6 +167,16 @@
 	<inttypes.h>
 	<inttypes.h>
 
-1493577705 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.cpp
+1493580563 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.cpp
 	"OV7670.h"
+
+1493226958 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
+	<stdlib.h>
+	"OV7670.h"
+	<WinSock2.h>
+	<direct.h>
+	<unistd.h>
+
+1493580535 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.cpp
+	"hybrid_socket.h"
 

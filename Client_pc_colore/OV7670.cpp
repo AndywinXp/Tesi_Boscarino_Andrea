@@ -1,9 +1,6 @@
 #include "OV7670.h"
 #pragma comment(lib, "ws2_32.lib")
 
-
-
-
 using namespace cv;
 
 IplImage *image_pipeline;
@@ -30,13 +27,11 @@ void write_text_grayscale(char * msg, IplImage* image_source, IplImage* image_de
 	cvPutText(image_dest, msg, cvPoint(10,15), &font, color);
 }
 
-
 void write_text_color(char * msg, IplImage* image_source, IplImage* image_dest)
 {
     cvCopy(image_source, image_dest, NULL);
 	cvPutText(image_dest, msg, cvPoint(10,15), &font, color);
 }
-
 
 int init_opencv()
 {
@@ -76,8 +71,6 @@ int release_opencv_video_recorder()
     return 0;
 }
 
-
-
 int convert_from_yuv_to_bgr(IplImage *LUMA, IplImage *CHROMA, int color_code, IplImage *BGR)
 {
    /// This function converts a LUMA + CHROMA stream encoded in YUV to a BGR image
@@ -108,15 +101,11 @@ int convert_from_yuv_to_bgr(IplImage *LUMA, IplImage *CHROMA, int color_code, Ip
    return 0;
 }
 
-
-
 int start_OV7670()
 {
 	struct sockaddr_in clientaddr, servaddr;
+	long buffer = 65536 * 1024;
 	int len;
-
-	WSADATA wsa;
-
 	int save_image_counter=0;
 
 
@@ -126,39 +115,7 @@ int start_OV7670()
 	init_opencv_video_recorder("Test_video");
 
 	//Initialise sockets
-	printf("[INFO] Initialising sockets\n");
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-	{
-		printf("[ERROR] Failed: error code %d", WSAGetLastError());
-		exit(EXIT_FAILURE);
-	}
-
-	/* PREPARAZIONE INDIRIZZO CLIENT E SERVER ----------------------------- */
-	memset((char *)&clientaddr, 0, sizeof(struct sockaddr_in));
-	clientaddr.sin_family = AF_INET;
-	clientaddr.sin_addr.s_addr = INADDR_ANY;
-	clientaddr.sin_port = htons(5555);
-
-	/* CREAZIONE SOCKET ---------------------------- */
-	SOCKET sd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (sd == INVALID_SOCKET) { perror("[ERROR] Opening socket"); exit(3); }
-
-	printf("[INFO] Created socket sd = %d\n", (int)sd);
-
-	/* BIND SOCKET, a una porta scelta dal sistema --------------- */
-	if (bind(sd, (struct sockaddr *) &clientaddr, sizeof(clientaddr)) == SOCKET_ERROR)
-	{
-		perror("[ERROR] Bind socket failed\n");
-		exit(1);
-	}
-	printf("[INFO] Binding socket completed, port %i\n", ntohs(clientaddr.sin_port));
-
-
-	long buffer = 65536 * 1024;
-	if (setsockopt(sd, SOL_SOCKET, SO_RCVBUF, (char*)&buffer, 8) == -1) {
-		fprintf(stderr, "[ERROR] Setting socket opts: %d\n", WSAGetLastError());
-	}
-	else printf("[INFO] Setting sockets opts completed\n");
+	HYBRID_SOCKET sd = (HYBRID_SOCKET) init_socket_wrapper(buffer, &clientaddr, &servaddr);
 
 	packet_data *tmp = (packet_data*)malloc(sizeof(packet_data));
 
@@ -208,12 +165,13 @@ int start_OV7670()
             first_time = false;
         }
 
-
         start_transfer_packet = Get_Time();
+        int error_check = 0;
 
-		if (recvfrom(sd, (char*)tmp, sizeof(packet_data), 0, (struct sockaddr *)&servaddr, &len) == SOCKET_ERROR)
+        error_check = recvfrom_socket_wrapper(sd, (void*)tmp, sizeof(packet_data), 0, (struct sockaddr *)&servaddr, &len);
+		if (error_check == SOCKET_ERROR)
 		{
-			perror("[ERROR] rcvfrom\n");
+			perror("[ERROR] recvfrom_socket_wrapper\n");
 			printf("[ERROR] Last frame index -> %d, i -> %d\n", tmp->frame_index, tmp->fragment);
 			exit(1);
 		}
@@ -355,8 +313,7 @@ int start_OV7670()
 
                     printf("[INFO] Done...\n");
 
-                    closesocket(sd);
-                    WSACleanup();
+                    close_socket_wrapper(sd);
 
                     exit(0);
                 }

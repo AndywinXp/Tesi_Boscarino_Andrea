@@ -9,11 +9,15 @@
 			<Target title="Debug">
 				<Option output="bin/Debug/TestOpenCV" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
+				<Option external_deps="libws2_32.a;" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add library="libws2_32.a" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/TestOpenCV" prefix_auto="1" extension_auto="1" />
@@ -40,6 +44,8 @@
 		<Unit filename="Calibration_single_camera.h" />
 		<Unit filename="OV7670.cpp" />
 		<Unit filename="OV7670.h" />
+		<Unit filename="hybrid_socket.cpp" />
+		<Unit filename="hybrid_socket.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
