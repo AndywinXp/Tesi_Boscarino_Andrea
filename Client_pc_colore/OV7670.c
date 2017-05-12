@@ -1,7 +1,9 @@
 #include "OV7670.h"
 #pragma comment(lib, "ws2_32.lib")
 
-using namespace cv;
+#ifdef __cplusplus
+    using namespace cv;
+#endif // __cplusplus
 
 IplImage *image_pipeline;
 IplImage *image_luma;
@@ -169,7 +171,12 @@ int start_OV7670()
         int error_check = 0;
 
         error_check = recvfrom_socket_wrapper(sd, (void*)tmp, sizeof(packet_data), 0, (struct sockaddr *)&servaddr, &len);
+    #ifdef SOCKET_ERROR
 		if (error_check == SOCKET_ERROR)
+    #endif // SOCKET_ERROR
+    #ifndef SOCKET_ERROR
+        if (error_check < 0)
+    #endif // SOCKET_ERROR
 		{
 			perror("[ERROR] recvfrom_socket_wrapper\n");
 			printf("[ERROR] Last frame index -> %d, i -> %d\n", tmp->frame_index, tmp->fragment);
@@ -321,9 +328,6 @@ int start_OV7670()
 		}
 	}
 }
-
-
-
 
 int extract_U_and_V_from_chroma(IplImage *CHROMA, IplImage *U_channel, IplImage *V_channel)
 {

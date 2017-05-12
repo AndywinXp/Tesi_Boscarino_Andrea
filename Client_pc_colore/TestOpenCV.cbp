@@ -40,13 +40,21 @@
 		<Linker>
 			<Add library="bin/Release/lib_time_measurements.a" />
 		</Linker>
-		<Unit filename="Calibration_single_camera.cpp" />
+		<Unit filename="Calibration_single_camera.c">
+			<Option compilerVar="CPP" />
+		</Unit>
 		<Unit filename="Calibration_single_camera.h" />
-		<Unit filename="OV7670.cpp" />
+		<Unit filename="OV7670.c">
+			<Option compilerVar="CPP" />
+		</Unit>
 		<Unit filename="OV7670.h" />
-		<Unit filename="hybrid_socket.cpp" />
+		<Unit filename="hybrid_socket.c">
+			<Option compilerVar="CPP" />
+		</Unit>
 		<Unit filename="hybrid_socket.h" />
-		<Unit filename="main.cpp" />
+		<Unit filename="main.c">
+			<Option compilerVar="CPP" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

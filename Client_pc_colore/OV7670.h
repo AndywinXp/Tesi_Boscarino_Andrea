@@ -2,7 +2,11 @@
     #define OV7670
 
     #include <stdio.h>
-    #include <direct.h>
+
+    #ifdef WINDOWS
+        #include <direct.h>
+    #endif // WINDOWS
+
     #include <sys/time.h>
 
     #include <opencv/cv.h>

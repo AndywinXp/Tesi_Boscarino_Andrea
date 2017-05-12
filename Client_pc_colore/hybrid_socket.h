@@ -1,20 +1,29 @@
 #ifndef hybrid_socket
     #define hybrid_socket
     #include <stdlib.h>
+    #include "../OS/os.h"
     #include "OV7670.h"
-    #ifdef _WIN32
+
+    #ifdef WINDOWS
         #include <WinSock2.h>
-        #include <direct.h> // alternativa unix unistd.h
+        #include <direct.h>
         typedef SOCKET HYBRID_SOCKET;
         typedef int BYTES_NUM;
-    #else
+    #endif // WINDOWS
+    #ifdef LINUX
+        #include <stdio.h>
+        #include <stdlib.h>
         #include <unistd.h>
+        #include <sys/types.h>
+        #include <sys/socket.h>
+        #include <netinet/in.h>
+        #include <netdb.h>
         typedef int HYBRID_SOCKET;
         typedef ssize_t BYTES_NUM;
-    #endif
+    #endif // LINUX
 
     int close_socket_wrapper(HYBRID_SOCKET);
     HYBRID_SOCKET init_socket_wrapper(long, struct sockaddr_in*, struct sockaddr_in*);
-    BYTES_NUM recvfrom_socket_wrapper(HYBRID_SOCKET, void*, int, int, struct sockaddr*, int*); // TODO: in unix il ritorno è ssize_t
+    BYTES_NUM recvfrom_socket_wrapper(HYBRID_SOCKET, void*, int, int, struct sockaddr*, int*);
 
 #endif // hybrid_socket
