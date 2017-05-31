@@ -25,8 +25,10 @@
     #define FRAME_SIZE 307200
 
     // FRAME_I_SIZE is defined accordingly in "platform_config.h"
-    // in the Zynq baremetal SDK project
-    #define FRAME_I_SIZE 13520  //30720 //7680
+	// in the Zynq baremetal SDK project.
+	// Warning IMAGE_SIZE % FRAME_I_SIZE = 0
+	#define FRAME_I_SIZE 9600
+
 
     #define COLOR_CODE CV_YUV2BGR_YUYV
 
