@@ -11,7 +11,13 @@ int close_socket_wrapper(HYBRID_SOCKET sd)
 
     #ifdef LINUX
         int code = close((int) sd);
+        return code;
     #endif // LINUX
+    
+    #ifdef MAC
+        int code = close((int) sd);
+        return code;
+    #endif // MAC
 }
 
 HYBRID_SOCKET init_socket_wrapper(long buffer, struct sockaddr_in *clientaddr, struct sockaddr_in *servaddr)
@@ -80,6 +86,35 @@ HYBRID_SOCKET init_socket_wrapper(long buffer, struct sockaddr_in *clientaddr, s
         }
 
     #endif // LINUX
+    
+    #ifdef MAC
+        printf("[INFO] Initialising sockets\n");
+    
+        /* PREPARAZIONE INDIRIZZO CLIENT E SERVER ----------------------------- */
+        memset((char *)clientaddr, 0, sizeof(struct sockaddr_in));
+        (*clientaddr).sin_family = AF_INET;
+        (*clientaddr).sin_addr.s_addr = INADDR_ANY;
+        (*clientaddr).sin_port = htons(5555);
+    
+        /* CREAZIONE SOCKET ---------------------------- */
+        int sd = socket(AF_INET, SOCK_DGRAM, 0);
+        if (sd < 0) { perror("[ERROR] Opening socket"); exit(3); }
+    
+        printf("[INFO] Created socket sd = %d\n", (int) sd);
+    
+        /* BIND SOCKET --------------- */
+        if (bind(sd, (struct sockaddr *) clientaddr, sizeof(*clientaddr)) < 0) //dubbio puntatore
+        {
+            perror("[ERROR] Bind socket failed\n");
+            exit(1);
+        }
+        printf("[INFO] Binding socket completed, port %i\n", ntohs((*clientaddr).sin_port));
+    
+        if (setsockopt(sd, SOL_SOCKET, SO_RCVBUF, (char*)&buffer, 8) == -1) {
+            fprintf(stderr, "[ERROR] Setting socket opts\n");
+        }
+    
+    #endif // MAC
 
     return (HYBRID_SOCKET) sd;
 }
@@ -93,4 +128,9 @@ BYTES_NUM recvfrom_socket_wrapper(HYBRID_SOCKET s, void *buf, int len, int flags
         return (BYTES_NUM) recvfrom((int) s, (char*)buf, len, flags, (struct sockaddr *)&from, (socklen_t*) fromlen);
         // return ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
     #endif // LINUX
+    
+    #ifdef MAC
+        return (BYTES_NUM) recvfrom((int) s, (char*)buf, len, flags, (struct sockaddr *)&from, (socklen_t*) fromlen);
+    #endif // MAC
+    
 }

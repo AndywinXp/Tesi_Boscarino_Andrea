@@ -256,10 +256,20 @@ int start_OV7670()
 
 
 				if (enable_save_video == true)
+#ifndef MAC
                     cvDrawCircle(image_BGR_text,cvPoint(WIDTH-20,10),6,cvScalar(0,0,255),CV_FILLED,1,0);
+#endif // NOT MAC
+#ifdef MAC
+                    cvDrawCircle(image_BGR_text,cvPoint(WIDTH-20,10),6,cvScalar(0,0,255,0),CV_FILLED,1,0);
+#endif // MAC
+                
                 else
+#ifndef MAC
                     cvDrawCircle(image_BGR_text,cvPoint(WIDTH-20,10),6,cvScalar(0,255,0),CV_FILLED,1,0);
-
+#endif // NOT MAC
+#ifdef MAC
+                    cvDrawCircle(image_BGR_text,cvPoint(WIDTH-20,10),6,cvScalar(0,255,0,0),CV_FILLED,1,0);
+#endif // MAC
 				cvShowImage("OV7670 Color (UYVY to BGR)", image_BGR_text);
 
 				// Add current image to video stream
@@ -273,17 +283,36 @@ int start_OV7670()
                     char FILENAME[512];
 
                     sprintf(FILENAME,"%s/%s_%d.png",PATH_SAVE_IMAGE,nick_image_PROCESSED,save_image_counter);
+#ifndef MAC
                     cvSaveImage(FILENAME, image_pipeline);
-
+#endif // NOT MAC
+#ifdef MAC
+                    cvSaveImage(FILENAME, image_pipeline, 0);
+#endif // MAC
+                    
                     sprintf(FILENAME,"%s/%s_%d.png",PATH_SAVE_IMAGE,nick_image_LUMA,save_image_counter);
+#ifndef MAC
                     cvSaveImage(FILENAME, image_luma);
-
+#endif // NOT MAC
+#ifdef MAC
+                    cvSaveImage(FILENAME, image_luma, 0);
+#endif // MAC
+                    
                     sprintf(FILENAME,"%s/%s_%d.png",PATH_SAVE_IMAGE,nick_image_CHROMA,save_image_counter);
+#ifndef MAC
                     cvSaveImage(FILENAME, image_chroma);
-
+#endif // NOT MAC
+#ifdef MAC
+                    cvSaveImage(FILENAME, image_chroma, 0);
+#endif // MAC
+                    
                     sprintf(FILENAME,"%s/%s_%d.png",PATH_SAVE_IMAGE,nick_image_COLOR,save_image_counter);
+#ifndef MAC
                     cvSaveImage(FILENAME, image_BGR);
-
+#endif // NOT MAC
+#ifdef MAC
+                    cvSaveImage(FILENAME, image_BGR, 0);
+#endif // MAC
 
                     save_image_counter++;
 

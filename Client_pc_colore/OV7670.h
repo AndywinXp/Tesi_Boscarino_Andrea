@@ -2,10 +2,16 @@
     #define OV7670
 
     #include <stdio.h>
-
+    #include "stdbool.h"
     #ifdef WINDOWS
         #include <direct.h>
     #endif // WINDOWS
+
+    #ifdef MAC
+        #define __USE_C99_MATH
+
+        #include "stdbool.h"
+    #endif // MAC
 
     #include <sys/time.h>
 
