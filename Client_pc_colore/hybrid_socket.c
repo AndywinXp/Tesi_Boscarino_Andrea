@@ -2,27 +2,22 @@
 
 int close_socket_wrapper(HYBRID_SOCKET sd)
 {
-    #ifdef WINDOWS
+    #if defined(WINDOWS)
         int code = closesocket((SOCKET) sd); // SPECIFICO PER WINDOWS, funziona solo su socket
                                          // e non su file descriptor come la close(fd) di unix
         WSACleanup();
         return code;
     #endif // WINDOWS
 
-    #ifdef LINUX
+    #if defined(LINUX) || defined(MAC)
         int code = close((int) sd);
         return code;
-    #endif // LINUX
-    
-    #ifdef MAC
-        int code = close((int) sd);
-        return code;
-    #endif // MAC
+    #endif // LINUX || MAC
 }
 
 HYBRID_SOCKET init_socket_wrapper(long buffer, struct sockaddr_in *clientaddr, struct sockaddr_in *servaddr)
 {
-    #ifdef WINDOWS
+    #if defined(WINDOWS)
 
         WSADATA wsa;
         //Initialise winsock
@@ -58,7 +53,7 @@ HYBRID_SOCKET init_socket_wrapper(long buffer, struct sockaddr_in *clientaddr, s
         }
         else printf("[INFO] Setting sockets opts completed\n");
     #endif // WINDOWS
-    #ifdef LINUX
+    #if defined(LINUX) || defined(MAC)
         printf("[INFO] Initialising sockets\n");
 
         /* PREPARAZIONE INDIRIZZO CLIENT E SERVER ----------------------------- */
@@ -85,52 +80,18 @@ HYBRID_SOCKET init_socket_wrapper(long buffer, struct sockaddr_in *clientaddr, s
             fprintf(stderr, "[ERROR] Setting socket opts\n");
         }
 
-    #endif // LINUX
-    
-    #ifdef MAC
-        printf("[INFO] Initialising sockets\n");
-    
-        /* PREPARAZIONE INDIRIZZO CLIENT E SERVER ----------------------------- */
-        memset((char *)clientaddr, 0, sizeof(struct sockaddr_in));
-        (*clientaddr).sin_family = AF_INET;
-        (*clientaddr).sin_addr.s_addr = INADDR_ANY;
-        (*clientaddr).sin_port = htons(5555);
-    
-        /* CREAZIONE SOCKET ---------------------------- */
-        int sd = socket(AF_INET, SOCK_DGRAM, 0);
-        if (sd < 0) { perror("[ERROR] Opening socket"); exit(3); }
-    
-        printf("[INFO] Created socket sd = %d\n", (int) sd);
-    
-        /* BIND SOCKET --------------- */
-        if (bind(sd, (struct sockaddr *) clientaddr, sizeof(*clientaddr)) < 0) //dubbio puntatore
-        {
-            perror("[ERROR] Bind socket failed\n");
-            exit(1);
-        }
-        printf("[INFO] Binding socket completed, port %i\n", ntohs((*clientaddr).sin_port));
-    
-        if (setsockopt(sd, SOL_SOCKET, SO_RCVBUF, (char*)&buffer, 8) == -1) {
-            fprintf(stderr, "[ERROR] Setting socket opts\n");
-        }
-    
-    #endif // MAC
+    #endif // LINUX || MAC
 
     return (HYBRID_SOCKET) sd;
 }
 
 BYTES_NUM recvfrom_socket_wrapper(HYBRID_SOCKET s, void *buf, int len, int flags, struct sockaddr *from, int *fromlen)
 {
-    #ifdef WINDOWS
+    #if defined(WINDOWS)
         return (BYTES_NUM) recvfrom((SOCKET) s, (char*)buf, len, flags, (struct sockaddr *)&from, fromlen);
     #endif // WINDOWS
-    #ifdef LINUX
+
+    #if defined(LINUX) || defined(MAC)
         return (BYTES_NUM) recvfrom((int) s, (char*)buf, len, flags, (struct sockaddr *)&from, (socklen_t*) fromlen);
-        // return ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
-    #endif // LINUX
-    
-    #ifdef MAC
-        return (BYTES_NUM) recvfrom((int) s, (char*)buf, len, flags, (struct sockaddr *)&from, (socklen_t*) fromlen);
-    #endif // MAC
-    
+    #endif // LINUX || MAC
 }

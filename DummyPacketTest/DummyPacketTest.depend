@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1498242881 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\dummypackettest\main.c
+	<stdio.h>
+	<unistd.h>
+	<WinSock2.h>
+	<direct.h>
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<unistd.h>
+
+1498496833 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\dummypackettest\dummy.c
+	"dummy.h"
+
+1498496653 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\dummypackettest\dummy.h
+	<stdio.h>
+	<unistd.h>
+	"../OS/os.h"
+	<WinSock2.h>
+	<direct.h>
+	<opencv/cv.h>
+	<opencv/highgui.h>
+
+1498495242 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\os\os.h
+

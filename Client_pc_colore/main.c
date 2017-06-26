@@ -1,4 +1,4 @@
-#ifdef WINDOWS
+#if defined(WINDOWS)
     #include <windows.h>
 #endif // WINDOWS
 
@@ -11,7 +11,6 @@
 
 int main(int argc, char **argv)
 {
-
     Get_Time();
 
     // Start the network udp client

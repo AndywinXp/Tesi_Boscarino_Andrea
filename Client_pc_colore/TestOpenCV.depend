@@ -143,16 +143,17 @@
 	<stdio.h>
 	<stdlib.h>
 
-1492293037 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\os\os.h
+1498495242 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\os\os.h
 
 1492794831 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\main.cpp
 	<iostream>
 	<windows.h>
 	"OV7670.h"
 
-1494536604 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
+1498496320 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
 	<stdio.h>
 	<direct.h>
+	"stdbool.h"
 	<sys/time.h>
 	<opencv/cv.h>
 	<opencv/highgui.h>
@@ -170,8 +171,9 @@
 1493580563 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.cpp
 	"OV7670.h"
 
-1494536474 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
+1498495508 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
 	<stdlib.h>
+	"../OS/os.h"
 	"OV7670.h"
 	<WinSock2.h>
 	<direct.h>
@@ -189,14 +191,16 @@
 1492939284 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\calibration_single_camera.c
 	"Calibration_single_camera.h"
 
-1492794831 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\main.c
-	<iostream>
+1498495534 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\main.c
 	<windows.h>
 	"OV7670.h"
+	<iostream>
 
-1493580563 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
+1498497162 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
 	"OV7670.h"
 
-1494541462 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
+1498495397 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
 	"hybrid_socket.h"
+
+1498495127 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\stdbool.h
 

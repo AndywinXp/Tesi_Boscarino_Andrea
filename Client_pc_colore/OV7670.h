@@ -2,12 +2,13 @@
     #define OV7670
 
     #include <stdio.h>
-    #include "stdbool.h"
-    #ifdef WINDOWS
+
+    #if defined(WINDOWS)
         #include <direct.h>
     #endif // WINDOWS
 
-    #ifdef MAC
+    // Se per qualche motivo viene usato Clang invece di GCC e non c'è un tipo boolean
+    #if defined(MAC)
         #define __USE_C99_MATH
 
         #include "stdbool.h"
@@ -19,11 +20,9 @@
     #include <opencv/highgui.h>
     #include <stdlib.h>
 
-
     #include "lib_time_measurements.h"
     #include "hybrid_socket.h"
     #include "Calibration_single_camera.h"
-
 
     //#define WIN32_LEAN_AND_MEAN
     #define WIDTH 640
@@ -35,7 +34,6 @@
 	// Warning IMAGE_SIZE % FRAME_I_SIZE = 0
 	#define FRAME_I_SIZE 9600
 
-
     #define COLOR_CODE CV_YUV2BGR_YUYV
 
     #define PATH_SAVE_IMAGE "./DATA/IMAGES"
@@ -45,8 +43,6 @@
     #define nick_image_LUMA         "LUMA"
     #define nick_image_CHROMA       "CHROMA"
     #define nick_image_COLOR        "COLOR"
-
-
 
     typedef unsigned char BYTE;
 
