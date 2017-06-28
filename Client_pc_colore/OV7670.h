@@ -7,7 +7,6 @@
         #include <direct.h>
     #endif // WINDOWS
 
-    // Se per qualche motivo viene usato Clang invece di GCC e non c'è un tipo boolean
     #if defined(MAC)
         #define __USE_C99_MATH
 
@@ -44,6 +43,7 @@
     #define nick_image_CHROMA       "CHROMA"
     #define nick_image_COLOR        "COLOR"
 
+
     typedef unsigned char BYTE;
 
     typedef struct {
@@ -54,6 +54,7 @@
         BYTE data_luma[FRAME_I_SIZE];
         BYTE data_chroma[FRAME_I_SIZE];
     } packet_data;
+
 
     int start_OV7670();
 

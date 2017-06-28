@@ -1,34 +1,11 @@
 #include "dummy.h"
 
-void start_simulation()
+int start_simulation()
 {
-    struct sockaddr_in si_other;
-    int s, slen=sizeof(si_other);
-    char buf[BUFLEN];
-    char message[BUFLEN];
-    WSADATA wsa;
+    struct sockaddr_in client_address;
+    int address_size = sizeof(client_address);
 
-    //Initialise winsock
-    printf("\nInitialising Winsock...");
-    if (WSAStartup(MAKEWORD(2,2),&wsa) != 0)
-    {
-        printf("Failed. Error Code : %d",WSAGetLastError());
-        exit(EXIT_FAILURE);
-    }
-    printf("Initialised.\n");
-
-    //create socket
-    if ( (s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
-    {
-        printf("socket() failed with error code : %d" , WSAGetLastError());
-        exit(EXIT_FAILURE);
-    }
-
-    //setup address structure
-    memset((char *) &si_other, 0, sizeof(si_other));
-    si_other.sin_family = AF_INET;
-    si_other.sin_port = htons(PORT);
-    si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
+    HYBRID_SOCKET s = init_socket_wrapper(0, &client_address, true, SERVER, PORT);
 
     BYTE *frame_pipeline    = (BYTE*)malloc(WIDTH*HEIGHT*sizeof(BYTE));
     BYTE *frame_luma        = (BYTE*)malloc(WIDTH*HEIGHT*sizeof(BYTE));
@@ -52,16 +29,17 @@ void start_simulation()
     char currentStandard[BUFFER_SIZE];
     char currentChroma[BUFFER_SIZE];
     char currentLuma[BUFFER_SIZE];
-    //start communication
+
+    // Main loop
     while(1)
     {
-        // flushing the strings
+        // Flushing the strings
         strncpy(currentNumber, "", sizeof(currentNumber));
         strncpy(currentStandard, "", sizeof(currentStandard));
         strncpy(currentChroma, "", sizeof(currentChroma));
         strncpy(currentLuma, "", sizeof(currentLuma));
 
-        // setting up filenames
+        // Setting up filenames
         sprintf(currentNumber, "%d.png", image_index);
 
         strcat(currentStandard, "ZYNQ_");
@@ -72,38 +50,40 @@ void start_simulation()
         strcat(currentLuma, currentNumber);
         strcat(currentChroma, currentNumber);
 
-        printf("Attempting to load frame number %d from files\n", image_index);
-        //sleep(1);
+        printf("[INFO] Attempting to load frame number %d from files\n", image_index);
 
         // ZYNQ LOADING ATTEMPT
         if ((loadedZynq = cvLoadImage(currentStandard, CV_LOAD_IMAGE_ANYDEPTH)) == NULL) {
-            printf("Couldn't load file %s, sorry.\n", currentStandard);
+            printf("[INFO] Couldn't load file %s, sorry.\n", currentStandard);
+            close_socket_wrapper(s);
+            free(frame_pipeline);
+            free(frame_luma);
+            free(frame_chroma);
             return -1;
         } else
-            printf("Canvas size for %s %dx%d\n", currentStandard, loadedZynq->width, loadedZynq->height);
+            printf("[INFO] Canvas size for %s %dx%d\n", currentStandard, loadedZynq->width, loadedZynq->height);
 
-            //cvShowImage("TEST1", loadedZynq); //Testing purpose
-            //cvWaitKey(16);
         // LUMA LOADING ATTEMPT
         if ((loadedLuma = cvLoadImage(currentLuma, CV_LOAD_IMAGE_ANYDEPTH)) == NULL) {
-            printf("Couldn't load file %s, sorry.\n", currentLuma);
+            printf("[INFO] Couldn't load file %s, sorry.\n", currentLuma);
+            close_socket_wrapper(s);
+            free(frame_pipeline);
+            free(frame_luma);
+            free(frame_chroma);
             return -1;
         } else
-            printf("Canvas size for %s %dx%d\n", currentLuma, loadedZynq->width, loadedZynq->height);
+            printf("[INFO] Canvas size for %s %dx%d\n", currentLuma, loadedZynq->width, loadedZynq->height);
 
-            //cvShowImage("TEST2", loadedLuma); //Testing purpose
-            //cvWaitKey(16);
         // CHROMA LOADING ATTEMPT
         if ((loadedChroma = cvLoadImage(currentChroma, CV_LOAD_IMAGE_ANYDEPTH)) == NULL) {
-            printf("Couldn't load file %s, sorry.\n", currentChroma);
+            printf("[INFO] Couldn't load file %s, sorry.\n", currentChroma);
+            free(frame_pipeline);
+            free(frame_luma);
+            free(frame_chroma);
+            close_socket_wrapper(s);
             return -1;
         } else
-            printf("Canvas size for %s %dx%d\n", currentChroma, loadedZynq->width, loadedZynq->height);
-
-            //cvShowImage("TEST3", loadedChroma); //Testing purpose
-
-        // REFRESH THE SCREEN!
-        cvWaitKey(16);
+            printf("[INFO] Canvas size for %s %dx%d\n", currentChroma, loadedZynq->width, loadedZynq->height);
 
         // Invio dei frammenti:
         // pacchettizzeremo FRAME_I_SIZE alla volta, scorrendo lungo il singolo frame
@@ -115,25 +95,40 @@ void start_simulation()
             memcpy(dummy->data_luma,   loadedLuma->imageData   + i*FRAME_I_SIZE, sizeof(dummy->data_luma));
             memcpy(dummy->data_chroma, loadedChroma->imageData + i*FRAME_I_SIZE, sizeof(dummy->data_luma));
 
-            // invio pacchetto col frammento
-            if (sendto(s, dummy, sizeof(packet_data) , 0 , (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
+            // Packet sending procedure
+            int error_check = 0;
+
+            error_check = sendto_socket_wrapper(s, (void*)dummy, sizeof(packet_data), 0, (struct sockaddr *)&client_address, address_size);
+        #if defined(SOCKET_ERROR)
+            if (error_check == SOCKET_ERROR)
+        #else // SOCKET_ERROR
+            if (error_check < 0)
+        #endif // SOCKET_ERROR
             {
-                printf("sendto() failed with error code : %d" , WSAGetLastError());
+                perror("[ERROR] sendto_socket_wrapper\n");
+                printf("[ERROR] sendto() failed with error code : %d" , WSAGetLastError());
+                printf("[ERROR] Last frame index -> %d, i -> %d\n", dummy->frame_index, dummy->fragment);
+                close_socket_wrapper(s);
+                free(frame_pipeline);
+                free(frame_luma);
+                free(frame_chroma);
                 exit(EXIT_FAILURE);
             }
-            printf("Frammento inviato numero %d\n", dummy->fragment);
-            //sleep(1);
+            printf("[INFO] Fragment number %d successfully sent\n", dummy->fragment);
+
             dummy->count++;
             dummy->fragment == FRAME_SIZE/FRAME_I_SIZE ? dummy->fragment = 0 : dummy->fragment++;
 
         }
         dummy->frame_index++;
         dummy->fragment = 0;
-        printf("Frame inviato: immagine %d\n", image_index);
-        usleep(10000);
+        printf("[INFO] Frame number %d successfully sent\n", image_index);
+        usleep(16670); // Inaccurate way of simulating 60 frames sent per seconds
         image_index == MAX_IMAGE_NUM ? image_index = 0 : image_index++;
     }
 
-    closesocket(s);
-    WSACleanup();
+    free(frame_pipeline);
+    free(frame_luma);
+    free(frame_chroma);
+    close_socket_wrapper(s);
 }

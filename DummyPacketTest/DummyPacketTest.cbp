@@ -38,8 +38,21 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
+			<Add option="-fexceptions -Wunused-function" />
 		</Compiler>
+		<Linker>
+			<Add directory="../Client_pc_colore" />
+		</Linker>
+		<Unit filename="../Client_pc_colore/hybrid_socket.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Client_pc_colore/hybrid_socket.h" />
+		<Unit filename="dummy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dummy.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

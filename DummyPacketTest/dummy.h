@@ -5,6 +5,7 @@
     #include <unistd.h>
 
     #include "../OS/os.h"
+    #include "../Client_pc_colore/hybrid_socket.h"
 
     #if defined(WINDOWS)
         #include <WinSock2.h>
@@ -27,11 +28,12 @@
     #define BUFLEN 512  //Max length of buffer
     #define PORT 5555   //The port on which to listen for incoming data
 
-    typedef unsigned char BYTE;
 
     // Warning! FRAME_I_SIZE defines a fragment of the image:
     // because of this, every data entry sent with the packet contains the fragment,
     // not the full size image.
+
+    typedef unsigned char BYTE;
 
     typedef struct {
         int count;
@@ -42,5 +44,7 @@
         BYTE data_chroma[FRAME_I_SIZE];
     } packet_data;
 
-    void start_simulation();
+
+    int start_simulation();
+
 #endif // DUMMY_H

@@ -150,7 +150,7 @@
 	<windows.h>
 	"OV7670.h"
 
-1498496320 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
+1498651487 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
 	<stdio.h>
 	<direct.h>
 	"stdbool.h"
@@ -171,10 +171,11 @@
 1493580563 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.cpp
 	"OV7670.h"
 
-1498495508 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
+1498654077 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
 	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
 	"../OS/os.h"
-	"OV7670.h"
 	<WinSock2.h>
 	<direct.h>
 	<stdio.h>
@@ -183,6 +184,7 @@
 	<sys/types.h>
 	<sys/socket.h>
 	<netinet/in.h>
+	<arpa/inet.h>
 	<netdb.h>
 
 1493580535 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.cpp
@@ -196,10 +198,10 @@
 	"OV7670.h"
 	<iostream>
 
-1498497162 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
+1498649921 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
 	"OV7670.h"
 
-1498495397 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
+1498650937 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
 	"hybrid_socket.h"
 
 1498495127 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\stdbool.h

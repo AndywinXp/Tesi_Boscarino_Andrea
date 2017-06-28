@@ -117,7 +117,7 @@ int start_OV7670()
 	init_opencv_video_recorder("Test_video");
 
 	//Initialise sockets
-	HYBRID_SOCKET sd = (HYBRID_SOCKET) init_socket_wrapper(buffer, &clientaddr, &servaddr);
+	HYBRID_SOCKET sd = (HYBRID_SOCKET) init_socket_wrapper(buffer, &clientaddr, false, "0", 5555);
 
 	packet_data *tmp = (packet_data*)malloc(sizeof(packet_data));
 

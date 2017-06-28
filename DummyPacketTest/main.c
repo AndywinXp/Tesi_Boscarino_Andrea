@@ -1,6 +1,5 @@
 #include "dummy.h"
 
-
 int main(void)
 {
     printf("WARNING: please do not open this program from Codeblocks IDE,\notherwise it won't be able to load files.\nJust open it from the build folder.\n");
