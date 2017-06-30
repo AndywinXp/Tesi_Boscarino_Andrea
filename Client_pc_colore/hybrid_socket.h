@@ -4,6 +4,7 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include <stdbool.h>
+    #include <string.h>
 
     #include "../OS/os.h"
 
@@ -14,8 +15,6 @@
         typedef int BYTES_NUM;
     #endif // WINDOWS
     #if defined(LINUX) || defined(MAC)
-        #include <stdio.h>
-        #include <stdlib.h>
         #include <unistd.h>
         #include <sys/types.h>
         #include <sys/socket.h>

@@ -80,7 +80,7 @@ HYBRID_SOCKET init_socket_wrapper(long buffer_sockopt, struct sockaddr_in *addr,
         (*addr).sin_port = htons(5555);
 
         if (server_mode) {
-            inet_aton(ip, (*addr).sin_addr);
+            inet_aton(ip, &addr->sin_addr);
         } else {
             (*addr).sin_addr.s_addr = INADDR_ANY;
         }
@@ -93,10 +93,16 @@ HYBRID_SOCKET init_socket_wrapper(long buffer_sockopt, struct sockaddr_in *addr,
                 perror("[ERROR] Bind socket failed\n");
                 exit(1);
             }
-            printf("[INFO] Binding socket completed, port %i\n", ntohs((*clientaddr).sin_port));
+            printf("[INFO] Binding socket completed, port %i\n", ntohs((*addr).sin_port));
 
-            if (setsockopt(sd, SOL_SOCKET, SO_RCVBUF, (char*)&buffer_sockopt, 8) == -1) {
+            if (setsockopt(sd, SOL_SOCKET, SO_RCVBUF, &buffer_sockopt, sizeof(buffer_sockopt)) == -1) {
                 fprintf(stderr, "[ERROR] Setting socket opts\n");
+            } else
+                printf("[INFO] Setting sockets opts completed\n");
+        } else {
+            if (setsockopt(sd, SOL_SOCKET, SO_SNDBUF, &buffer_sockopt, sizeof(buffer_sockopt)) == -1) {
+                fprintf(stderr, "[ERROR] Setting socket opts\n");
+                perror("Sockopt:");
             } else
                 printf("[INFO] Setting sockets opts completed\n");
         }
@@ -123,6 +129,6 @@ BYTES_NUM sendto_socket_wrapper(HYBRID_SOCKET s, char* buf, int len, int flags, 
     #endif // WINDOWS
 
     #if defined(LINUX) || defined(MAC)
-        return (BYTES_NUM) sendto((int) s, (char*)buf, len, flags, to, (socklen_t*) tolen);
+        return (BYTES_NUM) sendto((int) s, (char*)buf, len, flags, to, (socklen_t) tolen);
     #endif // LINUX || MAC
 }

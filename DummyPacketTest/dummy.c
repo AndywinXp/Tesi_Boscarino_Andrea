@@ -4,8 +4,18 @@ int start_simulation()
 {
     struct sockaddr_in client_address;
     int address_size = sizeof(client_address);
+    
+    // Although it is possible to set the maximum udp package size (64kb) in Windows as send buffer
+    // this is not permitted in UNIX like systems, so we set the buffer at a lower size
+    
+#if defined(WINDOWS)
+    long buffer_sockopt = 65536 * 1024;
+#endif
+#if defined(LINUX) || defined(MAC)
+    long buffer_sockopt = 65536;
+#endif
 
-    HYBRID_SOCKET s = init_socket_wrapper(0, &client_address, true, SERVER, PORT);
+    HYBRID_SOCKET s = init_socket_wrapper(buffer_sockopt, &client_address, true, SERVER, PORT);
 
     BYTE *frame_pipeline    = (BYTE*)malloc(WIDTH*HEIGHT*sizeof(BYTE));
     BYTE *frame_luma        = (BYTE*)malloc(WIDTH*HEIGHT*sizeof(BYTE));
@@ -107,7 +117,7 @@ int start_simulation()
         #endif // SOCKET_ERROR
             {
                 printf("[ERROR] sendto_socket_wrapper\n");
-                printf("[ERROR] sendto() failed with error code : %d\n" , WSAGetLastError());
+                perror("Errore: ");
                 printf("[ERROR] Last frame index -> %d, i -> %d\n", dummy->frame_index, dummy->fragment);
                 close_socket_wrapper(s);
                 free(frame_pipeline);

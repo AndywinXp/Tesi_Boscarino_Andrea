@@ -4,11 +4,17 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
+#include "opencv/cxcore.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
+#if defined(WINDOWS)
 #include <GL/gl.h>
+#endif
+#if defined(LINUX) || defined(MAC)
+#include <gl.h>
+#endif
 #include <GL/freeglut.h>
 #include "CVfunctions.h"
 #include "GLfunctions.h"

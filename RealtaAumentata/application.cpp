@@ -95,12 +95,24 @@ void init_gl(char *fname){
 }
 
 void init_cv(bool plugin_mode){
+#if defined(WINDOWS)
     FileStorage fs("out_camera_data.xml", FileStorage::READ);
     fs["Camera_Matrix"]>>tempA;
     cout << "Camera_Matrix:" << tempA << endl;
     fs["Distortion_Coefficients"]>>tempD;
     cout << "Distortion_Coefficients:" << tempD << endl;
+#endif
+#if defined(LINUX) || defined(MAC)
+    /*CvFileStorage* fs = cvOpenFileStorage("out_camera_data.xml", 0, CV_STORAGE_READ);*/
+    FileStorage fs();
+    fs.open("out_camera_data.xml", FileStorage::READ);
+    fs["Camera_Matrix"]>>tempA;
+    cout << "Camera_Matrix:" << tempA << endl;
+    fs["Distortion_Coefficients"]>>tempD;
+    cout << "Distortion_Coefficients:" << tempD << endl;
+#endif
 
+    printf("SONOQUI");
     A=tempA;
     D=tempD;
     if (!plugin_mode) {
@@ -132,17 +144,22 @@ void close_glut_application() {
 }
 
 int init_glut_application(int argc,char **argv, bool plugin_mode) {
+    printf("SONOQUI\n");
     is_plugin = plugin_mode;
     char fname[50];
     strcpy(fname, "object.obj");
+    printf("SONOQUI\n");
     glutInit(&argc,argv);
+    printf("SONOQUI\n");
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
+    printf("SONOQUI\n");
 
     glutInitWindowSize(1280,720);
 
     glutInitWindowPosition(20,20);
     glutCreateWindow("ObjLoader");
     //glutReshapeFunc(reshape);
+    printf("SONOQUI\n");
     glutDisplayFunc(display);
     glutIdleFunc(display);
 

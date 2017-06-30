@@ -1,4 +1,9 @@
-#include<GL/gl.h>
+#if defined(WINDOWS)
+#include <GL/gl.h>
+#endif
+#if defined(LINUX) || defined(MAC)
+#include <gl.h>
+#endif
 #include<GL/freeglut.h>
 #include "util.h"
 
