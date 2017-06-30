@@ -103,7 +103,7 @@ int convert_from_yuv_to_bgr(IplImage *LUMA, IplImage *CHROMA, int color_code, Ip
    return 0;
 }
 
-int start_OV7670()
+int start_OV7670(int argc,char **argv)
 {
 	struct sockaddr_in clientaddr, servaddr;
 	long buffer = 65536 * 1024;
@@ -115,6 +115,9 @@ int start_OV7670()
 	init_opencv();
 
 	init_opencv_video_recorder("Test_video");
+	#ifdef REALTA_AUMENTATA
+        init_glut_application(argc, argv, true);
+	#endif // REALTA_AUMENTATA
 
 	//Initialise sockets
 	HYBRID_SOCKET sd = (HYBRID_SOCKET) init_socket_wrapper(buffer, &clientaddr, false, "0", 5555);
@@ -259,6 +262,10 @@ int start_OV7670()
 
 				cvShowImage("OV7670 Color (UYVY to BGR)", image_BGR_text);
 
+				#ifdef REALTA_AUMENTATA
+				glut_application_loop_iteration(image_BGR);
+				#endif // REALTA_AUMENTATA
+
 				// Add current image to video stream
 				if (enable_save_video == true)
                     cvWriteFrame(video_stream, image_BGR_text);
@@ -313,6 +320,10 @@ int start_OV7670()
 
                     free(tmp);
                     free(msg);
+
+                    #ifdef REALTA_AUMENTATA
+                    close_glut_application();
+                    #endif // REALTA_AUMENTATA
 
                     printf("[INFO] Done...\n");
 

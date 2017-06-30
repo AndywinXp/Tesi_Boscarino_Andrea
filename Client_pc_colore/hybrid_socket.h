@@ -29,6 +29,5 @@
     int close_socket_wrapper(HYBRID_SOCKET);
     HYBRID_SOCKET init_socket_wrapper(long, struct sockaddr_in*, bool, char*, int);
     BYTES_NUM recvfrom_socket_wrapper(HYBRID_SOCKET, void*, int, int, struct sockaddr*, int*);
-    BYTES_NUM sendto_socket_wrapper(HYBRID_SOCKET, void*, int, int, struct sockaddr*, int);
-
+    BYTES_NUM sendto_socket_wrapper(HYBRID_SOCKET, char*, int, int, const struct sockaddr*, int);
 #endif // hybrid_socket

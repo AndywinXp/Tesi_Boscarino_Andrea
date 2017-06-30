@@ -98,15 +98,16 @@ int start_simulation()
             // Packet sending procedure
             int error_check = 0;
 
-            error_check = sendto_socket_wrapper(s, (void*)dummy, sizeof(packet_data), 0, (struct sockaddr *)&client_address, address_size);
+            error_check = sendto_socket_wrapper(s, (char*)dummy, sizeof(packet_data), 0, (struct sockaddr *)&client_address, address_size);
         #if defined(SOCKET_ERROR)
             if (error_check == SOCKET_ERROR)
-        #else // SOCKET_ERROR
+        #endif // defined
+        #if !defined(SOCKET_ERROR)
             if (error_check < 0)
         #endif // SOCKET_ERROR
             {
-                perror("[ERROR] sendto_socket_wrapper\n");
-                printf("[ERROR] sendto() failed with error code : %d" , WSAGetLastError());
+                printf("[ERROR] sendto_socket_wrapper\n");
+                printf("[ERROR] sendto() failed with error code : %d\n" , WSAGetLastError());
                 printf("[ERROR] Last frame index -> %d, i -> %d\n", dummy->frame_index, dummy->fragment);
                 close_socket_wrapper(s);
                 free(frame_pipeline);
@@ -114,6 +115,7 @@ int start_simulation()
                 free(frame_chroma);
                 exit(EXIT_FAILURE);
             }
+
             printf("[INFO] Fragment number %d successfully sent\n", dummy->fragment);
 
             dummy->count++;

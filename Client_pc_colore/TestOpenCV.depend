@@ -150,7 +150,7 @@
 	<windows.h>
 	"OV7670.h"
 
-1498651487 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
+1498819618 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.h
 	<stdio.h>
 	<direct.h>
 	"stdbool.h"
@@ -161,6 +161,7 @@
 	"lib_time_measurements.h"
 	"hybrid_socket.h"
 	"Calibration_single_camera.h"
+	"../RealtaAumentata/application.h"
 
 1492293461 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\lib_time_measurements.h
 	"../OS/os.h"
@@ -171,7 +172,7 @@
 1493580563 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.cpp
 	"OV7670.h"
 
-1498654077 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
+1498747895 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -193,16 +194,60 @@
 1492939284 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\calibration_single_camera.c
 	"Calibration_single_camera.h"
 
-1498495534 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\main.c
+1498665009 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\main.c
 	<windows.h>
 	"OV7670.h"
 	<iostream>
 
-1498649921 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
+1498665052 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\ov7670.c
 	"OV7670.h"
 
-1498650937 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
+1498747895 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\hybrid_socket.c
 	"hybrid_socket.h"
 
 1498495127 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\client_pc_colore\stdbool.h
+
+1498663327 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\application.h
+	"opencv2/highgui/highgui.hpp"
+	"opencv/cv.h"
+	"opencv/highgui.h"
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
+	<iostream>
+	<GL/gl.h>
+	<GL/freeglut.h>
+	"CVfunctions.h"
+	"GLfunctions.h"
+
+1495390824 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\cvfunctions.h
+	"opencv2/highgui/highgui.hpp"
+	"opencv/cv.h"
+	"opencv/highgui.h"
+	<iostream>
+
+1495059730 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\glfunctions.h
+	<GL/gl.h>
+	<GL/freeglut.h>
+	"util.h"
+
+1490806998 c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\util.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+
+1498670011 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\application.cpp
+	"application.h"
+
+1495390814 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\cvfunctions.cpp
+	"CVfunctions.h"
+
+1495059694 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\glfunctions.cpp
+	"GLfunctions.h"
+
+1495391416 source:c:\users\andrea\dropbox\boscarino_andrea\ov7670_color_mattia\realtaaumentata\util.cpp
+	"util.h"
 

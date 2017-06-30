@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
     // Start the network udp client
     // and the OpenCV Visualizer
-    start_OV7670();
+    start_OV7670(argc, argv);
 
     return 0;
 }

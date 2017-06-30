@@ -23,6 +23,13 @@
     #include "hybrid_socket.h"
     #include "Calibration_single_camera.h"
 
+    // Comment the line below if you don't want the augmented reality plugin
+    #define REALTA_AUMENTATA
+
+    #ifdef REALTA_AUMENTATA
+        #include "../RealtaAumentata/application.h"
+    #endif
+
     //#define WIN32_LEAN_AND_MEAN
     #define WIDTH 640
     #define HEIGHT 480
@@ -56,7 +63,7 @@
     } packet_data;
 
 
-    int start_OV7670();
+    int start_OV7670(int,char **);
 
     int init_opencv();
     int init_opencv_video_recorder(char *nickname);

@@ -17,6 +17,7 @@
 				</Compiler>
 				<Linker>
 					<Add library="libws2_32.a" />
+					<Add directory="../RealtaAumentata/obj" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,7 +40,20 @@
 		</Compiler>
 		<Linker>
 			<Add library="bin/Release/lib_time_measurements.a" />
+			<Add library="freeglut" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="winmm" />
+			<Add library="gdi32" />
 		</Linker>
+		<Unit filename="../RealtaAumentata/CVfunctions.cpp" />
+		<Unit filename="../RealtaAumentata/CVfunctions.h" />
+		<Unit filename="../RealtaAumentata/GLfunctions.cpp" />
+		<Unit filename="../RealtaAumentata/GLfunctions.h" />
+		<Unit filename="../RealtaAumentata/application.cpp" />
+		<Unit filename="../RealtaAumentata/application.h" />
+		<Unit filename="../RealtaAumentata/util.cpp" />
+		<Unit filename="../RealtaAumentata/util.h" />
 		<Unit filename="Calibration_single_camera.c">
 			<Option compilerVar="CPP" />
 		</Unit>
