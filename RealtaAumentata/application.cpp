@@ -148,18 +148,14 @@ int init_glut_application(int argc,char **argv, bool plugin_mode) {
     is_plugin = plugin_mode;
     char fname[50];
     strcpy(fname, "object.obj");
-    printf("SONOQUI\n");
     glutInit(&argc,argv);
-    printf("SONOQUI\n");
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
-    printf("SONOQUI\n");
 
     glutInitWindowSize(1280,720);
 
     glutInitWindowPosition(20,20);
     glutCreateWindow("ObjLoader");
     //glutReshapeFunc(reshape);
-    printf("SONOQUI\n");
     glutDisplayFunc(display);
     glutIdleFunc(display);
 
